@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "highwayhash/sip_hash.h"
+#include "freewayhash/sip_hash.h"
 
 #include <cassert>
 #include <numeric>
@@ -62,15 +63,17 @@ void VerifySipHash() {
 
   for (int size = 0; size < kMaxSize; ++size) {
     in[size] = static_cast<char>(size);
-    const HH_U64 hash = highwayhash::SipHash(key, in, size);
+    const HH_U64 hash[] = { highwayhash::SipHash(key, in, size), freewayhash::SipHash(key, in, size) };
+    for (int i = 0; i < 2; ++i) {
 #ifdef HH_GOOGLETEST
-    EXPECT_EQ(kSipHashOutput[size], hash) << "Mismatch at length " << size;
+      EXPECT_EQ(kSipHashOutput[size], hash) << "Mismatch (" << i << ") at length " << size;
 #else
-    if (hash != kSipHashOutput[size]) {
-      printf("Mismatch at length %d\n", size);
-      abort();
-    }
+      if (hash[i] != kSipHashOutput[size]) {
+        printf("Mismatch (%d) at length %d\n", i, size);
+        abort();
+      }
 #endif
+    }
   }
 }
 

@@ -31,15 +31,19 @@
 #include "highwayhash/robust_statistics.h"
 
 // Which functions to enable (includes check for compiler support)
-#define BENCHMARK_SIP 0
+#define BENCHMARK_SIP 1
+#define BENCHMARK_SIP_FREEWAY 1
 #define BENCHMARK_SIP_TREE 0
 #define BENCHMARK_HIGHWAY 1
-#define BENCHMARK_HIGHWAY_CAT 1
+#define BENCHMARK_HIGHWAY_CAT 0
 #define BENCHMARK_FARM 0
 
 #include "highwayhash/highwayhash_test_target.h"
 #if BENCHMARK_SIP
 #include "highwayhash/sip_hash.h"
+#endif
+#if BENCHMARK_SIP_FREEWAY
+#include "freewayhash/sip_hash.h"
 #endif
 #if BENCHMARK_SIP_TREE
 #include "highwayhash/scalar_sip_tree_hash.h"
@@ -185,7 +189,7 @@ void AddMeasurements(DurationsForInputs* input_map, const char* caption,
   input_map->num_items = 0;
 }
 
-#if BENCHMARK_SIP || BENCHMARK_FARM || (BENCHMARK_SIP_TREE && defined(__AVX2__))
+#if BENCHMARK_SIP || BENCHMARK_SIP_FREEWAY || BENCHMARK_FARM || (BENCHMARK_SIP_TREE && defined(__AVX2__))
 
 void MeasureAndAdd(DurationsForInputs* input_map, const char* caption,
                    const Func func, Measurements* measurements) {
@@ -218,6 +222,24 @@ uint64_t RunSip13(const void*, const size_t size) {
   char in[kMaxBenchmarkInputSize];
   memcpy(in, &size, sizeof(size));
   return SipHash13(key2, in, size);
+}
+
+#endif
+
+#if BENCHMARK_SIP_FREEWAY
+
+uint64_t RunFreewaySip(const void*, const size_t size) {
+  const HH_U64 key2[2] HH_ALIGNAS(16) = {0, 1};
+  char in[kMaxBenchmarkInputSize];
+  memcpy(in, &size, sizeof(size));
+  return freewayhash::SipHash(key2, in, size);
+}
+
+uint64_t RunFreewaySip13(const void*, const size_t size) {
+  const HH_U64 key2[2] HH_ALIGNAS(16) = {0, 1};
+  char in[kMaxBenchmarkInputSize];
+  memcpy(in, &size, sizeof(size));
+  return freewayhash::SipHash<1,3>(key2, in, size);
 }
 
 #endif
@@ -256,6 +278,11 @@ void AddMeasurements(const std::vector<size_t>& in_sizes,
 #if BENCHMARK_SIP
   MeasureAndAdd(&input_map, "SipHash", &RunSip, measurements);
   MeasureAndAdd(&input_map, "SipHash13", &RunSip13, measurements);
+#endif
+
+#if BENCHMARK_SIP_FREEWAY
+  MeasureAndAdd(&input_map, "SipHashFreeway", &RunFreewaySip, measurements);
+  MeasureAndAdd(&input_map, "SipHash13Freeway", &RunFreewaySip13, measurements);
 #endif
 
 #if BENCHMARK_SIP_TREE && defined(__AVX2__)
