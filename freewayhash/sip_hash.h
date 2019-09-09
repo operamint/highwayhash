@@ -74,8 +74,18 @@ namespace freewayhash {
 
 namespace freewayhash {
 
+    struct SipKey {
+        HH_U64 key[2];
+        operator const HH_U64*() const { return key; }
+
+        static HH_INLINE SipKey FromStr(const char str[16]) {
+            return SipKey{Le64ToHost(*reinterpret_cast<const HH_U64*>(str)), 
+                          Le64ToHost(*reinterpret_cast<const HH_U64*>(str + 8))};
+        }
+    };
+
     // SipHashState API.
-    // As of c++17, default SipHashState<> type need no <>.
+
     template <int kUpdateIters = 2, int kFinalizeIters = 4> class SipHashState {
         size_t mLength;
         HH_U64 mPadding, v0, v1, v2, v3;
