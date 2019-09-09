@@ -71,7 +71,7 @@ void benchmark()
 #if   TEST_CASE == 1
             sum_b += freewayhash::SipHash(key, &in[pos], len);
 #elif TEST_CASE == 2
-            sum_b += freewayhash::simple::SipHash(key, &in[pos], len);
+            sum_b += freewayhash::v2::SipHash(key, &in[pos], len);
 #elif TEST_CASE == 3
             freewayhash::SipHashState<> hasher(key); // remove <> if C++ >= 17
             hasher.Update(&in[pos], 5);
@@ -111,7 +111,7 @@ void benchmark()
 #if   TEST_CASE == 1
             sum_b += freewayhash::SipHash13(key, &in[pos], len);
 #elif TEST_CASE == 2
-            sum_b += freewayhash::simple::SipHash13(key, &in[pos], len);
+            sum_b += freewayhash::v2::SipHash13(key, &in[pos], len);
 #elif TEST_CASE == 3
             freewayhash::SipHash13State hasher(key);
             hasher.Update(&in[pos], 5);

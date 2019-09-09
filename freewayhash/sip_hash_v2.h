@@ -12,21 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FREEWAYHASH_SIMPLE_SIP_HASH_H_
-#define FREEWAYHASH_SIMPLE_SIP_HASH_H_
+#ifndef FREEWAYHASH_SIP_HASH_V2_H_
+#define FREEWAYHASH_SIP_HASH_V2_H_
 
 // Portable, very fast standalone C++ SipHash implementation.
-// freewayhash::simple::SipHash.
+// freewayhash::v2::SipHash.
 // 
-// Note: For general usage it is recommended to use my regular freewayhash::SipHash.
-// This is a my original, branch-free, simple and very fast implementation, but 
-// it has a minor usage disadvantage compared to the regular:
+// This a branch-free and cleaner implementation. It only has a minor usage
+// disadvantage compared to freewayhash::SipHash:
 //
 // The implementation is streaming-capable, meaning it can incrementally compute
 // a hash by multiple calls to Update() before Finalize(). However, all data blocks
 // given to Update() must be multipy of 8 bytes (need not be aligned).
 // This is adequate for one-shot hashing or for streaming of data, but not for 
 // e.g. encoding multiple arbitrary length data blocks into one single hash.
+// For general usage it is therefore recommended to use freewayhash::SipHash.
 
 #include <cstdint>
 #include <cstring>
@@ -37,7 +37,7 @@
     #define HH_INLINE inline
 #endif
 
-namespace freewayhash { namespace simple {
+namespace freewayhash { namespace v2 {
     
     using HH_U64 = unsigned long long;
     using std::uint8_t;
@@ -57,22 +57,22 @@ namespace freewayhash { namespace simple {
 }}
 
 #if defined(_WIN32) || (defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
-    inline freewayhash::simple::HH_U64 freewayhash::simple::Le64ToHost(HH_U64 x) { return x; }
+    inline freewayhash::v2::HH_U64 freewayhash::v2::Le64ToHost(HH_U64 x) { return x; }
 #elif defined(__APPLE__)
     #include <libkern/OSByteOrder.h>
-    inline freewayhash::simple::HH_U64 freewayhash::simple::Le64ToHost(HH_U64 x) { return OSSwapLittleToHostInt64(x); }
+    inline freewayhash::v2::HH_U64 freewayhash::v2::Le64ToHost(HH_U64 x) { return OSSwapLittleToHostInt64(x); }
 #elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
     #include <sys/endian.h>
-    inline freewayhash::simple::HH_U64 freewayhash::simple::Le64ToHost(HH_U64 x) { return letoh64(x); }
+    inline freewayhash::v2::HH_U64 freewayhash::v2::Le64ToHost(HH_U64 x) { return letoh64(x); }
 #elif defined(__linux__) || defined(__CYGWIN__) || defined(__GNUC__) || defined(__GNU_LIBRARY__)
     #include <endian.h>
-    inline freewayhash::simple::HH_U64 freewayhash::simple::Le64ToHost(HH_U64 x) { return le64toh(x); }
+    inline freewayhash::v2::HH_U64 freewayhash::v2::Le64ToHost(HH_U64 x) { return le64toh(x); }
 #else
     #error "Unsupported platform.  Cannot determine byte order."    
 #endif
 
 
-namespace freewayhash { namespace simple {
+namespace freewayhash { namespace v2 {
 
     // SipHashState API.
     // As of c++17, default SipHashState<> type need no <>.

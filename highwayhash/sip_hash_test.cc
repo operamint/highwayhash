@@ -14,6 +14,7 @@
 
 #include "highwayhash/sip_hash.h"
 #include "freewayhash/sip_hash.h"
+#include "freewayhash/sip_hash_v2.h"
 
 #include <cassert>
 #include <numeric>
@@ -63,10 +64,12 @@ void VerifySipHash() {
 
   for (int size = 0; size < kMaxSize; ++size) {
     in[size] = static_cast<char>(size);
-    const HH_U64 hash[] = { highwayhash::SipHash(key, in, size), freewayhash::SipHash(key, in, size) };
-    for (int i = 0; i < 2; ++i) {
+    const HH_U64 hash[] = { highwayhash::SipHash(key, in, size),
+                            freewayhash::SipHash(key, in, size),
+                            freewayhash::v2::SipHash(key, in, size) };
+    for (int i = 0; i < 3; ++i) {
 #ifdef HH_GOOGLETEST
-      EXPECT_EQ(kSipHashOutput[size], hash) << "Mismatch (" << i << ") at length " << size;
+      EXPECT_EQ(kSipHashOutput[size], hash[i]) << "Mismatch (" << i << ") at length " << size;
 #else
       if (hash[i] != kSipHashOutput[size]) {
         printf("Mismatch (%d) at length %d\n", i, size);

@@ -44,6 +44,7 @@
 #endif
 #if BENCHMARK_SIP_FREEWAY
 #include "freewayhash/sip_hash.h"
+#include "freewayhash/sip_hash_v2.h"
 #endif
 #if BENCHMARK_SIP_TREE
 #include "highwayhash/scalar_sip_tree_hash.h"
@@ -228,18 +229,32 @@ uint64_t RunSip13(const void*, const size_t size) {
 
 #if BENCHMARK_SIP_FREEWAY
 
-uint64_t RunFreewaySip(const void*, const size_t size) {
+uint64_t RunSipFreeway(const void*, const size_t size) {
   const HH_U64 key2[2] HH_ALIGNAS(16) = {0, 1};
   char in[kMaxBenchmarkInputSize];
   memcpy(in, &size, sizeof(size));
   return freewayhash::SipHash(key2, in, size);
 }
 
-uint64_t RunFreewaySip13(const void*, const size_t size) {
+uint64_t RunSip13Freeway(const void*, const size_t size) {
   const HH_U64 key2[2] HH_ALIGNAS(16) = {0, 1};
   char in[kMaxBenchmarkInputSize];
   memcpy(in, &size, sizeof(size));
   return freewayhash::SipHash<1,3>(key2, in, size);
+}
+
+uint64_t RunSipV2Freeway(const void*, const size_t size) {
+  const HH_U64 key2[2] HH_ALIGNAS(16) = {0, 1};
+  char in[kMaxBenchmarkInputSize];
+  memcpy(in, &size, sizeof(size));
+  return freewayhash::v2::SipHash(key2, in, size);
+}
+
+uint64_t RunSip13V2Freeway(const void*, const size_t size) {
+  const HH_U64 key2[2] HH_ALIGNAS(16) = {0, 1};
+  char in[kMaxBenchmarkInputSize];
+  memcpy(in, &size, sizeof(size));
+  return freewayhash::v2::SipHash<1,3>(key2, in, size);
 }
 
 #endif
@@ -281,8 +296,10 @@ void AddMeasurements(const std::vector<size_t>& in_sizes,
 #endif
 
 #if BENCHMARK_SIP_FREEWAY
-  MeasureAndAdd(&input_map, "SipHashFreeway", &RunFreewaySip, measurements);
-  MeasureAndAdd(&input_map, "SipHash13Freeway", &RunFreewaySip13, measurements);
+  MeasureAndAdd(&input_map, "SipHashFreeway", &RunSipFreeway, measurements);
+  MeasureAndAdd(&input_map, "SipHash13Freeway", &RunSip13Freeway, measurements);
+  MeasureAndAdd(&input_map, "SipHashV2Freeway", &RunSipV2Freeway, measurements);
+  MeasureAndAdd(&input_map, "SipHash13V2Freeway", &RunSip13V2Freeway, measurements);
 #endif
 
 #if BENCHMARK_SIP_TREE && defined(__AVX2__)
