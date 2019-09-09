@@ -25,12 +25,12 @@ using std::setprecision;
 using std::fixed;
 
 #include "freewayhash/sip_hash.h"
-#include "freewayhash/sip_hash_simple.h"
+#include "freewayhash/sip_hash_v2.h"
 #include "highwayhash/sip_hash.h"
 #include "highwayhash/highwayhash.h"
 
-#ifndef TEST_CASE
-#define TEST_CASE 1
+#ifndef TEST
+#define TEST 1
 #endif
 
 void benchmark()
@@ -68,11 +68,11 @@ void benchmark()
         
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
-#if   TEST_CASE == 1
+#if   TEST == 1
             sum_b += freewayhash::SipHash(key, &in[pos], len);
-#elif TEST_CASE == 2
+#elif TEST == 2
             sum_b += freewayhash::v2::SipHash(key, &in[pos], len);
-#elif TEST_CASE == 3
+#elif TEST == 3
             freewayhash::SipHashState<> hasher(key); // remove <> if C++ >= 17
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);
@@ -108,11 +108,11 @@ void benchmark()
         
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
-#if   TEST_CASE == 1
+#if   TEST == 1
             sum_b += freewayhash::SipHash13(key, &in[pos], len);
-#elif TEST_CASE == 2
+#elif TEST == 2
             sum_b += freewayhash::v2::SipHash13(key, &in[pos], len);
-#elif TEST_CASE == 3
+#elif TEST == 3
             freewayhash::SipHash13State hasher(key);
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);

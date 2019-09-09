@@ -1,4 +1,4 @@
-:: You may pass arg -DTEST_CASE=<n>
+:: You may pass arg -DTEST=<n>
 
 :: Old g++ 5.1.0 does not fully support c++17
 g++ -s -I.. -std=c++14 -O3 -mavx2 -Wall -o benchmark_siphash_gnu.exe %* benchmark_siphash.cc 
