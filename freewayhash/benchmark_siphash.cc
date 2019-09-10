@@ -29,12 +29,15 @@ using std::fixed;
 #include "highwayhash/sip_hash.h"
 #include "highwayhash/highwayhash.h"
 
-#ifndef TEST
-#define TEST 1
+#ifndef SIPTEST
+#define SIPTEST 1
 #endif
 
 void benchmark()
 {
+    //const double N = 1000000000;
+      const double N = 600000000;
+
     highwayhash::HH_U64 key[2], sum_a = 0, sum_b = 0, sum_c = 0;
     std::clock_t start;
     double time_a, time_b, time_c;
@@ -44,12 +47,13 @@ void benchmark()
         k_str[i] = char(i);
 
     std::vector<int> input_lengths { 7, 8, 31, 32, 44, 63, 64, 1024, 1024 * 1024 };
-    std::vector<char> data(input_lengths.back() * 2);
-    for (char& m: data) m = rand() % 256;
-    const char* in = data.data();
-    const double N = 2000000000;
+    std::vector<uint8_t> data(input_lengths.back() * 2);
+    //srand(0);
+    for (uint8_t& m: data) m = rand() % 256;
+    const char* in = reinterpret_cast<const char *>(data.data());
+    
     int pos = 0;
-
+    const uint64_t hhkey[4] = {1, 2, 3, 4};
     cout << setprecision(2) << fixed;
          
     // SipHash 2-4
@@ -68,11 +72,11 @@ void benchmark()
         
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
-#if   TEST == 1
+#if   SIPTEST == 1
             sum_b += freewayhash::SipHash(key, &in[pos], len);
-#elif TEST == 2
+#elif SIPTEST == 2
             sum_b += freewayhash::v2::SipHash(key, &in[pos], len);
-#elif TEST == 3
+#elif SIPTEST == 3
             freewayhash::SipHashState<> hasher(key); // remove <> if C++ >= 17
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);
@@ -85,7 +89,7 @@ void benchmark()
         highwayhash::HHResult64 result;
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
-            highwayhash::HHStateT<HH_TARGET> state(key);
+            highwayhash::HHStateT<HH_TARGET> state(hhkey);
             highwayhash::HighwayHashT(&state, &in[pos], len, &result);
             sum_c += result;
         }
@@ -108,11 +112,11 @@ void benchmark()
         
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
-#if   TEST == 1
+#if   SIPTEST == 1
             sum_b += freewayhash::SipHash13(key, &in[pos], len);
-#elif TEST == 2
+#elif SIPTEST == 2
             sum_b += freewayhash::v2::SipHash13(key, &in[pos], len);
-#elif TEST == 3
+#elif SIPTEST == 3
             freewayhash::SipHash13State hasher(key);
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);
