@@ -35,14 +35,13 @@ using std::fixed;
 
 void benchmark()
 {
-    //const double N = 1000000000;
-      const double N = 600000000;
+    const double N = 600000000;
 
-    highwayhash::HH_U64 key[2], sum_a = 0, sum_b = 0, sum_c = 0;
+    uint64_t sipkey[2], sum_a = 0, sum_b = 0, sum_c = 0;
     std::clock_t start;
     double time_a, time_b, time_c;
 
-    char* k_str = reinterpret_cast<char *>(key);
+    char* k_str = reinterpret_cast<char *>(sipkey);
     for (int i = 0; i < 16; ++i)
         k_str[i] = char(i);
 
@@ -65,7 +64,7 @@ void benchmark()
         
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
-            sum_a += highwayhash::SipHash(key, &in[pos], len);
+            sum_a += highwayhash::SipHash(sipkey, &in[pos], len);
         }
         time_a = (std::clock() - start) / (double) CLOCKS_PER_SEC;
         cout << setw(10) << len << setw(14) << time_a << "s";
@@ -73,11 +72,11 @@ void benchmark()
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
 #if   SIPTEST == 1
-            sum_b += freewayhash::SipHash(key, &in[pos], len);
+            sum_b += freewayhash::SipHash(sipkey, &in[pos], len);
 #elif SIPTEST == 2
-            sum_b += freewayhash::v2::SipHash(key, &in[pos], len);
+            sum_b += freewayhash::v2::SipHash(sipkey, &in[pos], len);
 #elif SIPTEST == 3
-            freewayhash::SipHashState<> hasher(key); // remove <> if C++ >= 17
+            freewayhash::SipHashState<> hasher(sipkey); // remove <> if C++ >= 17
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);
             sum_b += hasher.Finalize();
@@ -105,7 +104,7 @@ void benchmark()
         
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
-            sum_a += highwayhash::SipHash13(key, &in[pos], len);
+            sum_a += highwayhash::SipHash13(sipkey, &in[pos], len);
         }
         time_a = (std::clock() - start) / (double) CLOCKS_PER_SEC;
         cout << setw(10) << len << setw(14) << time_a << "s";
@@ -113,11 +112,11 @@ void benchmark()
         start = std::clock();
         for (size_t i = 0; i < n; ++i) {
 #if   SIPTEST == 1
-            sum_b += freewayhash::SipHash13(key, &in[pos], len);
+            sum_b += freewayhash::SipHash13(sipkey, &in[pos], len);
 #elif SIPTEST == 2
-            sum_b += freewayhash::v2::SipHash13(key, &in[pos], len);
+            sum_b += freewayhash::v2::SipHash13(sipkey, &in[pos], len);
 #elif SIPTEST == 3
-            freewayhash::SipHash13State hasher(key);
+            freewayhash::SipHash13State hasher(sipkey);
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);
             sum_b += hasher.Finalize();
