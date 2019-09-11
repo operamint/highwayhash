@@ -1,0 +1,86 @@
+Resolution 48
+NumReplicas 55
+SipHash    7: median=  69.8 ticks; median L1 norm = 1.1 ticks
+SipHash    8: median=  70.8 ticks; median L1 norm = 1.3 ticks
+SipHash   31: median=  93.5 ticks; median L1 norm = 1.8 ticks
+SipHash   32: median=  97.2 ticks; median L1 norm = 1.7 ticks
+SipHash   63: median= 129.2 ticks; median L1 norm = 2.0 ticks
+SipHash   64: median= 134.8 ticks; median L1 norm = 2.6 ticks
+SipHash 1024: median=1246.7 ticks; median L1 norm =24.1 ticks
+NumReplicas 74
+SipHash13    7: median=  61.0 ticks; median L1 norm = 1.0 ticks
+SipHash13    8: median=  59.6 ticks; median L1 norm = 0.9 ticks
+SipHash13   31: median=  69.5 ticks; median L1 norm = 1.1 ticks
+SipHash13   32: median=  73.6 ticks; median L1 norm = 1.4 ticks
+SipHash13   63: median=  88.7 ticks; median L1 norm = 1.3 ticks
+SipHash13   64: median=  89.0 ticks; median L1 norm = 1.2 ticks
+SipHash13 1024: median= 659.2 ticks; median L1 norm =14.2 ticks
+NumReplicas 84
+SipHashFreeway    7: median=  52.6 ticks; median L1 norm = 0.8 ticks
+SipHashFreeway    8: median=  48.7 ticks; median L1 norm = 0.8 ticks
+SipHashFreeway   31: median=  72.1 ticks; median L1 norm = 1.5 ticks
+SipHashFreeway   32: median=  72.9 ticks; median L1 norm = 1.4 ticks
+SipHashFreeway   63: median= 106.0 ticks; median L1 norm = 1.9 ticks
+SipHashFreeway   64: median= 109.2 ticks; median L1 norm = 2.0 ticks
+SipHashFreeway 1024: median=1176.0 ticks; median L1 norm =15.9 ticks
+NumReplicas 139
+SipHash13Freeway    7: median=  48.1 ticks; median L1 norm = 0.7 ticks
+SipHash13Freeway    8: median=  42.9 ticks; median L1 norm = 0.8 ticks
+SipHash13Freeway   31: median=  51.3 ticks; median L1 norm = 0.8 ticks
+SipHash13Freeway   32: median=  54.7 ticks; median L1 norm = 0.9 ticks
+SipHash13Freeway   63: median=  73.1 ticks; median L1 norm = 1.2 ticks
+SipHash13Freeway   64: median=  70.3 ticks; median L1 norm = 1.2 ticks
+SipHash13Freeway 1024: median= 636.1 ticks; median L1 norm =13.9 ticks
+NumReplicas 69
+SipHashV2Freeway    7: median=  53.6 ticks; median L1 norm = 0.9 ticks
+SipHashV2Freeway    8: median=  49.7 ticks; median L1 norm = 0.9 ticks
+SipHashV2Freeway   31: median=  74.9 ticks; median L1 norm = 1.2 ticks
+SipHashV2Freeway   32: median=  76.0 ticks; median L1 norm = 1.2 ticks
+SipHashV2Freeway   63: median= 109.3 ticks; median L1 norm = 1.8 ticks
+SipHashV2Freeway   64: median= 110.9 ticks; median L1 norm = 2.0 ticks
+SipHashV2Freeway 1024: median=1164.4 ticks; median L1 norm =25.3 ticks
+NumReplicas 143
+SipHash13V2Freeway    7: median=  46.4 ticks; median L1 norm = 0.7 ticks
+SipHash13V2Freeway    8: median=  42.1 ticks; median L1 norm = 0.5 ticks
+SipHash13V2Freeway   31: median=  51.2 ticks; median L1 norm = 0.8 ticks
+SipHash13V2Freeway   32: median=  52.0 ticks; median L1 norm = 0.7 ticks
+SipHash13V2Freeway   63: median=  71.1 ticks; median L1 norm = 0.9 ticks
+SipHash13V2Freeway   64: median=  69.3 ticks; median L1 norm = 1.2 ticks
+SipHash13V2Freeway 1024: median= 620.8 ticks; median L1 norm = 1.3 ticks
+NumReplicas 129
+HighwayHashAVX2    7: median=  64.7 ticks; median L1 norm = 0.8 ticks
+HighwayHashAVX2    8: median=  63.4 ticks; median L1 norm = 0.9 ticks
+HighwayHashAVX2   31: median=  77.8 ticks; median L1 norm = 0.8 ticks
+HighwayHashAVX2   32: median=  60.4 ticks; median L1 norm = 0.7 ticks
+HighwayHashAVX2   63: median=  92.4 ticks; median L1 norm = 1.5 ticks
+HighwayHashAVX2   64: median=  68.6 ticks; median L1 norm = 0.8 ticks
+HighwayHashAVX2 1024: median= 245.4 ticks; median L1 norm = 5.0 ticks
+NumReplicas 73
+HighwayHashSSE41    7: median=  85.8 ticks; median L1 norm = 1.5 ticks
+HighwayHashSSE41    8: median=  81.7 ticks; median L1 norm = 1.7 ticks
+HighwayHashSSE41   31: median= 100.1 ticks; median L1 norm = 1.6 ticks
+HighwayHashSSE41   32: median=  80.1 ticks; median L1 norm = 1.1 ticks
+HighwayHashSSE41   63: median= 114.8 ticks; median L1 norm = 1.9 ticks
+HighwayHashSSE41   64: median=  88.1 ticks; median L1 norm = 1.5 ticks
+HighwayHashSSE41 1024: median= 368.5 ticks; median L1 norm = 7.6 ticks
+NumReplicas 21
+HighwayHashPortable    7: median= 462.1 ticks; median L1 norm = 8.3 ticks
+HighwayHashPortable    8: median= 449.9 ticks; median L1 norm = 7.5 ticks
+HighwayHashPortable   31: median= 448.3 ticks; median L1 norm = 8.0 ticks
+HighwayHashPortable   32: median= 422.1 ticks; median L1 norm = 6.1 ticks
+HighwayHashPortable   63: median= 542.5 ticks; median L1 norm = 8.2 ticks
+HighwayHashPortable   64: median= 513.8 ticks; median L1 norm = 7.0 ticks
+HighwayHashPortable 1024: median=3282.1 ticks; median L1 norm =39.7 ticks
+\begin{tabular}{r|r|r|r|r|r|r|r}
+\toprule
+Algorithm & 7 & 8 & 31 & 32 & 63 & 64 & 1024\\
+\midrule
+       HighwayHashAVX2 &  9.24 &  7.93 &  2.51 &  1.89 &  1.47 &  1.07 &  0.24\\
+   HighwayHashPortable & 66.01 & 56.24 & 14.46 & 13.19 &  8.61 &  8.03 &  3.21\\
+      HighwayHashSSE41 & 12.25 & 10.21 &  3.23 &  2.50 &  1.82 &  1.38 &  0.36\\
+               SipHash &  9.98 &  8.85 &  3.02 &  3.04 &  2.05 &  2.11 &  1.22\\
+             SipHash13 &  8.71 &  7.46 &  2.24 &  2.30 &  1.41 &  1.39 &  0.64\\
+      SipHash13Freeway &  6.88 &  5.36 &  1.65 &  1.71 &  1.16 &  1.10 &  0.62\\
+    SipHash13V2Freeway &  6.63 &  5.26 &  1.65 &  1.63 &  1.13 &  1.08 &  0.61\\
+        SipHashFreeway &  7.52 &  6.08 &  2.33 &  2.28 &  1.68 &  1.71 &  1.15\\
+      SipHashV2Freeway &  7.66 &  6.21 &  2.42 &  2.38 &  1.73 &  1.73 &  1.14\\
