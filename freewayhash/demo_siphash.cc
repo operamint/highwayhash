@@ -3,6 +3,7 @@
 #include <array>
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include "sip_hash.h"
 
 int main()
@@ -20,4 +21,7 @@ int main()
     const uint64_t k2[2] = {0xdeadbeefdeaf10cc, 0xdeadbeefdeaf10cc};
     std::cout << freewayhash::SipHash(k1, vec) << std::endl;
     std::cout << freewayhash::SipHash(k2, arr) << std::endl;
+    
+    uint64_t d1[2] = {0x0706050403020100, 0x0f0e0d0c0b0a0908};
+    std::cout << std::hex << freewayhash::SipHash(d1, d1, 15) << std::endl;
 }
