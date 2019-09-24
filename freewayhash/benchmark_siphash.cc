@@ -27,7 +27,6 @@ using std::fixed;
 #include "freewayhash/sip_hash.h"
 #include "highwayhash/sip_hash.h"
 #include "siphash.h" 
-#include "ruby_siphash.h"
 #include "highwayhash/highwayhash.h"
 
 
@@ -43,9 +42,9 @@ void benchmark()
     std::clock_t start;
     double time_a, time_b, time_c;
 
-    char* k_str = reinterpret_cast<char *>(sipkey);
-    for (int i = 0; i < 16; ++i)
-        k_str[i] = char(i);
+    uint8_t* k_str = reinterpret_cast<uint8_t *>(sipkey);
+    for (uint8_t i = 0; i < 16; ++i)
+        k_str[i] = i;
 
     std::vector<int> input_lengths { 7, 8, 31, 32, 44, 63, 64, 1024, 1024 * 1024 };
     std::vector<uint8_t> data(input_lengths.back() * 2);
@@ -65,8 +64,8 @@ void benchmark()
         size_t n = size_t(N / len);
         
         start = std::clock();
-        for (size_t i = 0; i < n; ++i) { // used in Python impl.
-            sum_a += highwayhash::SipHash(sipkey, &in[pos], len);
+        for (size_t i = 0; i < n; ++i) {
+            sum_a += highwayhash::SipHash(sipkey, &in[pos], len);  // used in Python impl.
         }
         time_a = (std::clock() - start) / (double) CLOCKS_PER_SEC;
         cout << setw(10) << len << setw(14) << time_a << "s";
@@ -82,13 +81,6 @@ void benchmark()
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);
             sum_b += hasher.Finalize();
-#elif SIPTEST == 4 // Ruby impl.
-            sip_hash hasher;
-            uint64_t hash;            
-            sip_hash_init(&hasher, (const uint8_t*)sipkey, 2, 4);
-            sip_hash_update(&hasher, &data[pos], len);
-            sip_hash_final_integer(&hasher, &hash);
-            sum_b += hash;
 #endif
         }
         time_b = (std::clock() - start) / (double) CLOCKS_PER_SEC;
@@ -129,13 +121,6 @@ void benchmark()
             hasher.Update(&in[pos], 5);
             hasher.Update(&in[pos + 5], len - 5);
             sum_b += hasher.Finalize();
-#elif SIPTEST == 4
-            sip_hash hasher;
-            uint64_t hash;            
-            sip_hash_init(&hasher, (const uint8_t*)sipkey, 1, 3);
-            sip_hash_update(&hasher, &data[pos], len);
-            sip_hash_final_integer(&hasher, &hash);
-            sum_b += hash;
 #endif
         }
         time_b = (std::clock() - start) / (double) CLOCKS_PER_SEC;

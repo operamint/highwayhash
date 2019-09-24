@@ -24,7 +24,7 @@ typedef unsigned char      sip_uint8_t;
 typedef unsigned long long sip_uint64_t;
 typedef int sip_uint_size_check[ sizeof(sip_uint64_t) == 8 && CHAR_BIT == 8 ? 1 : -1 ];
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
     #define SIP_INLINE __forceinline
 #elif defined(__GNUC__)
     #define SIP_INLINE __attribute__((always_inline)) inline
@@ -78,11 +78,11 @@ SIP_INLINE void siphash_init13(siphash_state* s, const sip_uint64_t key[2]) {
     ((x << bits) | (x >> (64 - bits)))
 
 #define _siphash_half_round(i, j, a, b, c, d)\
-    a += b;\
-    c += d;\
-    b = _siphash_rotate_left64(b, i) ^ a;\
-    d = _siphash_rotate_left64(d, j) ^ c;\
-    a = _siphash_rotate_left64(a, 32);\
+    (a += b,\
+     c += d,\
+     b = _siphash_rotate_left64(b, i) ^ a,\
+     d = _siphash_rotate_left64(d, j) ^ c,\
+     a = _siphash_rotate_left64(a, 32))
 
 #define _siphash_compress(rounds, s)\
     for (int r = 0; r < rounds; ++r) {\
